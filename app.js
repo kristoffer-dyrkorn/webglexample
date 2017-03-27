@@ -20,12 +20,9 @@ function start() {
   gl.enable(gl.BLEND);
 
   gl.getExtension('OES_standard_derivatives');
-  gl.getExtension('WEBGL_depth_texture');
 
   camera = new Camera();
   camera.setPosition(0.0, 0.0, 10.0);
-
-  pp = new PostProcessingRenderer();
 
   setFullScreen();
 
@@ -43,10 +40,10 @@ function drawScene(timeStamp) {
   var frameTime = timeStamp - prevTimeStamp || 0;
   prevTimeStamp = timeStamp;
 
-  rocket.render(frameTime, camera);
-  stars.render(camera);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  pp.render();
+  rocket.render(frameTime / 1000, camera);
+  stars.render(camera);
 }
 
 function setFullScreen() {
@@ -55,6 +52,4 @@ function setFullScreen() {
 
   gl.viewport(0, 0, canvas.width, canvas.height);
   camera.setAspectMatrix(canvas.width/canvas.height);
-
-  pp.resize(canvas.width, canvas.height);
 }
